@@ -1,19 +1,19 @@
 # Whatsapp Chat Cleaner
 
-# Basics
+# Summary
 
 When a chat is exported from Whatsapp, the output is a zip folder with a txt file
 
-This GitHub repo cleans the chat and saves it to a csv file
+This GitHub repo cleans the chat and saves it to a csv file with the following columns: date, time, name, and message
 
 # cleaner.py
 
-open_txt_file(filename)
+`open_txt_file(filename)`
 
 - Takes in a string which is the name of the txt file with the exported chat
 - Returns a list with lists that each have a line of the conversation
 
-cleaner(data)
+`cleaner(data)`
 
 - Takes in a list with lists that each have a line of the conversation
 - Returns a pandas DataFrame with four columns: date, time, name, message where each row of the DataFrame contains a single message
