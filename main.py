@@ -1,5 +1,5 @@
 ########################################
-###      Clean WhatsApp chat data    ### 
+###      Fomat WhatsApp chat data    ### 
 ########################################
 
 import sys
@@ -18,7 +18,7 @@ def open_txt_file(filename):
     return f.readlines()
 
 
-def clean_data(data):
+def format_data(data):
     """
     parameters:
         data (list[list]): list with lists that each have a line of conversation
@@ -26,13 +26,13 @@ def clean_data(data):
     returns:
         pandas DataFrame: txt file as a pd DataFrame
     """
-    cleaned_data = []
+    formatted_data = []
     line_to_add = []
     for line in data:
         no_new_line = line.replace("\n", "")
         if no_new_line != "":
             if (no_new_line[0] == "[" and no_new_line[1].isnumeric()) or no_new_line[0] == "\u200e":
-                cleaned_data.append(line_to_add)
+                formatted_data.append(line_to_add)
                 line_to_add = ""
                 date = no_new_line.split(",")[0][1:].replace("[", "")
 
@@ -49,15 +49,15 @@ def clean_data(data):
             else:
                 line_to_add[-1] += no_new_line
 
-    return pd.DataFrame(cleaned_data, columns=["date", "time", "name", "message"]).iloc[1: , :]
+    return pd.DataFrame(formatted_data, columns=["date", "time", "name", "message"]).iloc[1: , :]
 
 
-##########################################
-### Save the cleaned TXT file as a CSV ###
-##########################################
+############################################
+### Save the Formatted TXT file as a CSV ###
+############################################
 if __name__ == "__main__":
     directory = "".join(sys.argv[1])
     filename = "".join(sys.argv[2])
-    cleaned_data = clean_data(open_txt_file(f"{directory}/{filename}"))
+    formatted_data = format_data(open_txt_file(f"{directory}/{filename}"))
     actual_filename = filename.split(".txt")[0]
-    cleaned_data.to_csv(f"{directory}/{actual_filename}-cleaned.csv", index=False)
+    formatted_data.to_csv(f"{directory}/{actual_filename}-formatted.csv", index=False)
